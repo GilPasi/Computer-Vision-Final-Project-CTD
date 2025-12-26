@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+      <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-delaunay@6"></script>
+    <script src="https://unpkg.com/p5.canny@latest/dist/p5.canny.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8" />
+
+  </head>
+  <meta charset="utf-8">
+
+  <title>CannyJS demo</title>
+  <script src="canny.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3-delaunay@6"></script>
+  <script type="text/javascript">
+    
+    window.onload = function(){
+      var canvas1 = document.getElementById('canvas1');
+      var canvas2 = document.getElementById('canvas2');    
+      var ctx = canvas1.getContext('2d');
+      var image1Btn = document.getElementById("image1");
+      var image2Btn = document.getElementById("image2");
+      var image3Btn = document.getElementById("image3");
+      var htInput = document.getElementById("high-threshold");
+      var ltInput = document.getElementById("low-threshold");
+      var sigmaInput = document.getElementById("sigma");
+      var kernelSizeInput = document.getElementById("kernelSize");    
+      var executeBtn = document.getElementById("execute");
+      
+      var loadImage = function(url){
+        var img = new Image();
+        img.src=url
+        img.onload= function(){
+          canvas1.width = img.width;
+          canvas2.width = img.width;
+          canvas1.height = img.height;
+          canvas2.height = img.height;
+          ctx.drawImage(img,0,0);    
+        }
+      }
+      var onButtonClick = function(e){
+        loadImage(e.target.value);
+      }
+      image1Btn.addEventListener("click", onButtonClick);
+      image2Btn.addEventListener("click", onButtonClick);
+      image3Btn.addEventListener("click", onButtonClick);    
+      
+      var execute = function(){
+        var start = new Date;
+        var ht = parseInt(htInput.value);
+        var lt = parseInt(ltInput.value);
+        var sigma = parseFloat(sigmaInput.value);
+        var kernelSize = parseInt(kernelSizeInput.value);
+        window.canny = CannyJS.canny(canvas1, ht, lt, sigma, kernelSize);
+        canny.drawOn(canvas2);
+        finish = new Date;
+        duration = (finish-start)/1000;
+        console.log("Detection finished. Duration: "+duration+" seconds.");
+      }
+      executeBtn.addEventListener("click", execute);      
+      loadImage("ukiyo-e.png");
+    }    
+  </script>
+</head>
+
+<body data-new-gr-c-s-check-loaded="14.1267.0" data-gr-ext-installed="">
+  <h1>Canny JS: A JavaScript Implementation of Canny Edge Detection</h1>
+  <div>
+    <label>Switch image:</label>
+    <button id="image1" value="example-picture.jpg">Image 1</button>
+    <button id="image2" value="car.jpg">Image 2</button>
+    <button id="image3" value="valve.png">Image 3</button>
+  </div>
+  <div>
+    <label>high threshold (0-255):</label>
+    <input type="text" id="high-threshold" value="100"><br>
+    <label>low threshold (0-255):</label>
+    <input type="text" id="low-threshold" value="50"><br>
+    <label>sigma (0.0-):</label>
+    <input type="text" id="sigma" value="1.4"><br>
+    <label>kernel size (odd number):</label>
+    <input type="text" id="kernelSize" value="3"><br>
+    
+  <div>
+  <div>
+    <button id="execute">Detect edges</button>
+  </div>  
+  
+  <canvas id="canvas1" width="500" height="800"></canvas>
+  <canvas id="canvas2" width="500" height="800"></canvas>
+      <main>
+    </main>
+        <script src="sketch.js"></script>
+
+
+
+</div></div>
+
+    <main>
+    </main>
+    <script src="sketch.js"></script>
+
+</body>
+
+
+ <grammarly-desktop-integration data-grammarly-shadow-root="true">
+    <template shadowrootmode="open">
+    <style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style>
+    <div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;limited&quot;,&quot;isActive&quot;:false,&quot;isUserDisabled&quot;:false}">
+
+    </div></template></grammarly-desktop-integration>
+    </html> 

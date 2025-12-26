@@ -7,24 +7,19 @@ let points = [];
 // Global variables for geometry
 let delaunay, voronoi;
 // Image
-let gloria;
+let picture;
 
 // Load image before setup
 function preload() {
-  gloria = loadImage("example-picture.jpg");
+  picture = loadImage("example-picture.jpg");
 }
 
 function setup() {
   createCanvas(600, 532);
-
-  // Generate random points avoiding bright areas
   generateRandomPoints(6000);
-
-  // Calculate Delaunay triangulation and Voronoi diagram
   delaunay = calculateDelaunay(points);
   voronoi = delaunay.voronoi([0, 0, width, height]);
 }
-
 function draw() {
   background(255);
 
@@ -40,7 +35,7 @@ function generateRandomPoints(n) {
   for (let i = 0; i < n; i++) {
     let x = random(width);
     let y = random(height);
-    let col = gloria.get(x, y);
+    let col = picture.get(x, y);
     if (random(100) > brightness(col)) {
       points.push(createVector(x, y));
     } else {
@@ -72,14 +67,14 @@ function updatePoints() {
   }
   
   // Get the weights of all the pixels and assign to cells
-  gloria.loadPixels();
+  picture.loadPixels();
   let delaunayIndex = 0;
   for (let i = 0; i < width; i++) {
     for (let j = 0; j < height; j++) {
       let index = (i + j * width) * 4;
-      let r = gloria.pixels[index + 0];
-      let g = gloria.pixels[index + 1];
-      let b = gloria.pixels[index + 2];
+      let r = picture.pixels[index + 0];
+      let g = picture.pixels[index + 1];
+      let b = picture.pixels[index + 2];
       let bright = (r + g + b) / 3;
       let weight = 1 - bright / 255;
       delaunayIndex = delaunay.find(i, j, delaunayIndex);
